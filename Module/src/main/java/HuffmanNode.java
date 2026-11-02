@@ -13,13 +13,34 @@ public record HuffmanNode(int charAscii, int freq, HuffmanTree left, HuffmanTree
         implements HuffmanTree{
 
      public boolean comesBefore(HuffmanTree other) {
-        // TODO: implement
-        return false;
+
+         if(this.freq == other.freq()) {
+             if (this.charAscii < other.charAscii()) {
+                 return true;
+             } else if (other.charAscii() < this.charAscii) {
+                 return false;
+             } else {
+                 throw new IllegalArgumentException("Duplicate characters detected");
+             }
+         }
+         return this.freq < other.freq();
     }
 
     public HuffmanTree combine(HuffmanTree other) {
-        // TODO: implement
-        return null;
+
+        if(this.comesBefore(other) && this.charAscii < other.charAscii()){
+            return new HuffmanNode(this.charAscii,this.freq + other.freq(), this, other);
+        }else if(this.comesBefore(other) && other.charAscii() < this.charAscii){
+            return new HuffmanNode(other.charAscii(),this.freq + other.freq(), this, other);
+
+        }else if(this.comesBefore(other) && this.charAscii < other.charAscii()){
+            return new HuffmanNode(this.charAscii,this.freq + other.freq(), other,this);
+        }else if(this.comesBefore(other) && other.charAscii() < this.charAscii){
+            return new HuffmanNode(other.charAscii(),this.freq + other.freq(), other,this);
+        }else{
+            throw new IllegalArgumentException("Combining issue");
+        }
+
     }
 
     /**
