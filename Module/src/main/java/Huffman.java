@@ -53,8 +53,33 @@ public class Huffman {
      *    character (no combine() call needed).
      */
     public static HuffmanNode createHuffTree(int[] freq) {
-        // TODO: implement
-        return null;
+        for(int i = 0; i < freq.length; i++){
+            if(freq[i] != 0) {
+                something.enqueue(new HuffmanLeaf(freq[i], (char) (97 + i)));
+            }
+        }
+        while(something.length() > 1){
+           HuffmanTree l1 = something.dequeue();
+           HuffmanTree l2 = something.dequeue();
+           something.enqueue(l1.combine(l2));
+        }
+
+        int count = 0;
+        for(int i = 0; i < freq.length; i++){
+            if(freq[i] != 0){
+                count++;
+            }
+        }
+        if(count == 0){
+            return null;
+        }else if(count == 1){
+            for(int i = 0; i < freq.length; i++){
+                if(freq[i] != 0) {
+                    return new HuffmanNode(97 + i, freq[i], null, null);
+                }
+            }
+        }
+        return something;
     }
 
     /**
