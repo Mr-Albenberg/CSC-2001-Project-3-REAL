@@ -3,8 +3,8 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class HuffmanTest {
 
+    static Path resourcePath = Paths.get("src","test","resources").toAbsolutePath();
+
     @Test
     public void testCntFreq() throws IOException {
-        int[] freqList = Huffman.cntFreq("file2.txt");
+        int[] freqList = Huffman.cntFreq(resourcePath.resolve("file2.txt").toString());
         int[] ansList = {2, 4, 8, 16, 0, 2, 0}; // counts for ascii 97..103
         for (int i = 0; i < ansList.length; i++) {
             assertEquals(ansList[i], freqList[97 + i], "mismatch at ascii " + (97 + i));
@@ -26,22 +28,22 @@ public class HuffmanTest {
 
     @Test
     public void testComesBefore() {
-        HuffmanNode d = new HuffmanNode(5, 'd',null,null);
-        HuffmanNode k = new HuffmanNode(5, 'k',null,null);
+        HuffmanLeaf d = new HuffmanLeaf(5, 'd');
+        HuffmanLeaf k = new HuffmanLeaf(5, 'k');
         assertTrue(d.comesBefore(k));
         assertFalse(k.comesBefore(d));
     }
 
     @Test
     public void testCreateHeader() throws IOException {
-        int[] freqList = Huffman.cntFreq("file2.txt");
+        int[] freqList = Huffman.cntFreq(resourcePath.resolve("file2.txt").toString());
         assertEquals("97 2 98 4 99 8 100 16 102 2", Huffman.createHeader(freqList));
     }
 
     @Test
     public void test01Textfile() throws IOException {
-        Huffman.huffmanEncode("file1.txt", "file1_out.txt");
-        assertTrue(compareFiles("file1_out.txt", "file1_soln.txt"));
+        Huffman.huffmanEncode(resourcePath.resolve("file1.txt").toString(), "file1_out.txt");
+        assertTrue(compareFiles("file1_out.txt", resourcePath.resolve("file1_soln.txt").toString()));
     }
 
     /**

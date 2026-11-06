@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -34,7 +35,18 @@ public class Huffman {
      */
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
-        // TODO: implement
+        byte[] bytes = Files.readAllBytes(new File(filename).toPath());
+        /*
+        char[] chars = new char[256];
+        for (int i = 0; i < filename.length(); i++) {
+            chars[i] = filename.charAt(i);
+        }
+
+         */
+        for(byte b : bytes){
+            freq[b & 0xFF]++;
+        }
+
         return freq;
     }
 
@@ -52,7 +64,7 @@ public class Huffman {
      *    one unique character), return a single leaf HuffmanNode for that
      *    character (no combine() call needed).
      */
-    public static HuffmanNode createHuffTree(int[] freq) {
+    public static HuffmanTree createHuffTree(int[] freq) {
         List something = new List();
         int charNum = 0;
         for(int i = 0; i < freq.length; i++){
@@ -67,17 +79,16 @@ public class Huffman {
            something.enqueue(l1.combine(l2));
         }
 
-
         if(charNum == 0){
             return null;
         }else if(charNum == 1){
             for(int i = 0; i < freq.length; i++){
                 if(freq[i] != 0) {
-                    return new HuffmanNode(i, freq[i], null, null);
+                    return new HuffmanLeaf(i, freq[i]);
                 }
             }
         }
-        return (HuffmanNode) something.dequeue();
+        return something.dequeue();
     }
 
     /**
