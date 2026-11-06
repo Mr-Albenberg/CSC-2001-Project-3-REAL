@@ -2,7 +2,7 @@ public interface HQueue {
     /**
      * returns a fresh (empty) queue
      */
-    HuffmanTree newQueue();
+    //HuffmanTree newQueue();
 
     /**
      * return true if the queue is empty

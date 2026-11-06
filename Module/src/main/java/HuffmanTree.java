@@ -8,7 +8,7 @@ public interface HuffmanTree extends Comparable<HuffmanTree> {
      * with the smaller ASCII value comes first.
      */
     int freq();
-    int charAscii();
+    int charASCII();
     public boolean comesBefore(HuffmanTree other);
 
     /**
