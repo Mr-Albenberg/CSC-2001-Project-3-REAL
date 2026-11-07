@@ -125,7 +125,7 @@ public class Huffman {
                 header = header + i + " " + freq[i] + " ";
             }
         }
-        return header;
+        return header.trim();
     }
 
     /**
